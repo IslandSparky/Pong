@@ -189,7 +189,7 @@ fn find_direction_to_meet(balls:&mut Vec< Ball>, seek_idx:usize,tar_idx:usize)  
     for _i in 0 .. steps {
         tar_ball.move_ball();                   // use move to extrapolate position
     } 
-        find_direction_between_balls(&mut balls[seek_idx],&mut tar_ball)
+        find_direction_between_balls(balls[seek_idx], tar_ball)
 }
 
 // find the distance in pixels between two sets of x,y coordinates
@@ -211,7 +211,7 @@ fn find_direction (x1:f32,y1:f32,x2:f32,y2:f32) -> f32 {
 }
 
 // find direction between balls
-fn find_direction_between_balls (  ball_1:&mut Ball, ball_2:&mut  Ball) -> f32 {
+fn find_direction_between_balls (  ball_1:Ball, ball_2: Ball) -> f32 {
     find_direction(ball_1.x,ball_1.y,ball_2.x,ball_2.y)
 }
 
