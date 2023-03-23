@@ -49,15 +49,11 @@ struct Ball {
     y: f32,
     speed: f32,
     direction: f32,
-    role: Role,                    // indicates role as seeker, target or npc
+    role: Role,                    // indicates role as seeker, target. coward, or stinker
     color: Color,
 }
 
 impl Ball {
-    /*fn new () -> Ball {
-        Ball { 
-            size: 10, x: 0., y: 10., speed: SPEED, direction: 0., seek: false, color:Color::CYAN}
-    } */
 
     fn move_ball(&mut self) {
         self.x += self.speed * self.direction.cos() ;
@@ -104,12 +100,10 @@ fn check_collisions(balls:&mut Vec<Ball>) {
 
 
     for j in 0 .. balls.len() {
-        //let deltax_a =   balls[j].x;
-        //let deltay_a = balls[j].y;
+
             for k in 0 .. balls.len() {
                 if j != k {
-                    //let deltax_b = balls[k].x;
-                    //let deltay_b = balls[k].y;
+
                     let delta_x = (balls[j].x - balls[k].x).abs();
                     let delta_y = (balls[j].y - balls[k].y).abs();
                     if (delta_x < balls[j].size as f32) && (delta_y < balls[k].size as f32) {
@@ -127,7 +121,7 @@ fn seek(balls:&mut Vec<Ball>) {
     // put all the targets in two vectors - one for the seekers and one for the cowards
     let mut target_balls = vec![];
     let mut avoided_balls = vec![];
-    let mut stinker_balls = vec![];    
+    let mut stinker_balls = vec![];   // and the stinkers in their own vector 
     for i in 0 .. balls.len() {
         match balls[i].role {
             Role::TARGET => {
@@ -258,21 +252,17 @@ fn main() -> Result<(), String> {
             }
         }
 
-        // Update
-
-        //canvas.set_draw_color(Color::RGB(175,175,175));             // paint over the previous locations
         
         canvas.set_draw_color(Color::GRAY);  
         canvas.clear();
 
         for  i in 0 .. balls.len(){                                 // Update all the balls
-            //let ball: &mut Ball  = balls[i];
+
             balls[i].move_ball();
             balls[i].draw(&mut canvas);
         };
 
-        //seek(&mut balls);
-        //check_collisions(&mut balls);
+
         check_collisions(&mut balls);
         seek (&mut balls);
 
